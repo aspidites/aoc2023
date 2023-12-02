@@ -20,11 +20,25 @@ library
         extensions
       , warnings
     exposed-modules:
-        AoC.Day1
+        AoC.Day1.Part1
+      , AoC.Day1.Part2
+      , Util
     build-depends:    
         base ^>=4.19.0.0
     hs-source-dirs:   src
     default-language: GHC2021
+
+executable aoc2023
+    import:
+        extensions
+      , warnings
+    main-is:          Main.hs
+    build-depends:
+        base ^>=4.19.0.0,
+        aoc2023
+
+    hs-source-dirs:   app
+    default-language: Haskell2010
 
 test-suite aoc2023-test
     import:
