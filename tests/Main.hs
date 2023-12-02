@@ -45,6 +45,9 @@ main = hspec $ do
     it "7pqrstsixteen returns 76" $ do 
       P2.parse "7pqrstsixteen" `shouldBe` 76
 
+    it "eighthree returns 83" $ do
+      P2.parse "eighthree" `shouldBe` 83
+
   describe "Day1.Part2.solve" $ do
     it "returns 281" $ do
       input <- readFile "./tests/day1/part2.txt"
