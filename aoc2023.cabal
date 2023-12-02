@@ -13,8 +13,7 @@ common warnings
 
 common extensions
     default-extensions:
-        OverloadedStrings
-      , LambdaCase
+        LambdaCase
 
 library
     import:           
@@ -24,7 +23,6 @@ library
         AoC.Day1
     build-depends:    
         base ^>=4.19.0.0
-      , text
     hs-source-dirs:   src
     default-language: GHC2021
 
@@ -38,6 +36,5 @@ test-suite aoc2023-test
     main-is:          Main.hs
     build-depends:
         base ^>=4.19.0.0
-      , text
       , hspec
       , aoc2023
