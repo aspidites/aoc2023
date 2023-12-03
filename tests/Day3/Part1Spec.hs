@@ -1,7 +1,7 @@
 module Day3.Part1Spec (spec) where
 
 import Test.Hspec
-import AoC.Day3.Part1
+-- import AoC.Day3.Part1
 
 spec :: Spec
 spec = do
