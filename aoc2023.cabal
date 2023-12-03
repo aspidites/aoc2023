@@ -14,7 +14,6 @@ common warnings
 common extensions
     default-extensions:
         LambdaCase
-      , OverloadedStrings
       , DeriveGeneric
 
 library
@@ -32,6 +31,7 @@ library
       , AoC.Day3.Part1
       , AoC.Day3.Part2
       , Parsing
+      , Util
     build-depends:    
         base
       , mtl

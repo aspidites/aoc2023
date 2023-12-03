@@ -15,7 +15,6 @@ main = do
   -- parse environment variables
   d :: Maybe Int <- fmap read <$> lookupEnv "AOC_DAY"
   i <- lookupEnv "AOC_INPUT"
-  j :: Maybe Bool <- fmap read <$> lookupEnv "AOC_JSON"
 
   -- prefer commandline options over env variables
-  run (day options <|> d) (input options <|> i) (Just (json options) <|> j)
+  run (day options <|> d) (input options <|> i)

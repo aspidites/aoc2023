@@ -1,4 +1,5 @@
 {-# LANGUAGE DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Cli ( Config(..), run ) where
 
 import AoC.Day1 qualified as Day1
@@ -17,16 +18,16 @@ solutions =
 data Config w = Config
   { day :: w ::: Maybe Int <?> "Which day to run solutions for"
   , input :: w ::: Maybe String <?> "Input file to run solution against"
-  , json :: w ::: Bool <?> "Whether or not to show results as JSON"
+  , json :: w ::: Bool <?> "Deprecated: This flag used to turn on/off json output"
   } deriving (Generic)
 
 instance ParseRecord (Config Wrapped)
 deriving instance Show (Config Unwrapped)
 
-run :: Maybe Int -> Maybe String -> Maybe Bool -> IO ()
-run Nothing _ _ = putStrLn "Please specify which day's solutions you want to run as an integer"
-run _ Nothing _ = putStrLn "Please specify an input file to run solutions against"
-run (Just d) (Just i) json = do
+run :: Maybe Int -> Maybe String -> IO ()
+run Nothing _ = putStrLn "Please specify which day's solutions you want to run as an integer"
+run _ Nothing = putStrLn "Please specify an input file to run solutions against"
+run (Just d) (Just i) = do
   input <- readFile i
 
   case lookup d solutions of
@@ -35,13 +36,7 @@ run (Just d) (Just i) json = do
       let partOne = part1 input
           partTwo = part2 input
       
-      case json of
-        Just True -> do
-          BS.putStrLn $ encode $ object 
-            [ "part_one" .= partOne
-            , "part_two" .= partTwo
-            ]
-        _ -> do
-          print partOne
-          print partTwo
-
+      BS.putStrLn $ encode $ object 
+        [ "part_one" .= partOne
+        , "part_two" .= partTwo
+        ]
