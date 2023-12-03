@@ -9,11 +9,12 @@ build-type:      Simple
 extra-doc-files: README.md
 
 common warnings
-    ghc-options: -Wall
+    ghc-options: -Wall -O2
 
 common extensions
     default-extensions:
         LambdaCase
+      , StrictData
       , DeriveGeneric
 
 library
