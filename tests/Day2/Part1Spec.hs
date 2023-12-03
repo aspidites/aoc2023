@@ -45,5 +45,4 @@ spec = do
   describe "Day2.Part1.solve" $ do
     it "day2.part1.txt" $ do
       input <- readFile "./inputs/day2.part1.txt"
-      result <- solve input 
-      result `shouldBe` 8
+      solve input `shouldBe` 8

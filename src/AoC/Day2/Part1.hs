@@ -3,6 +3,7 @@ module AoC.Day2.Part1
   , Color(..)
   , Grab(..)
   , Game(..) 
+  , Bag(..)
   , parse
   , solve
   ) where
@@ -32,9 +33,6 @@ data Bag = Bag
   , blues :: Cube 
   } deriving (Eq, Show)
 
--- StateT over IO is considered bad, so using ReaderT (IORef a) instead
-type GameM a = ReaderT (IORef Bag) IO a
-
 grabCubes :: [Cube] -> Bag -> Maybe Bag
 grabCubes [] bag = Just bag
 grabCubes (cube:cs) bag = go
@@ -48,25 +46,6 @@ grabCubes (cube:cs) bag = go
 
       Cube c Blue | qty (blues bag) - c < 0 -> Nothing
                   | otherwise -> grabCubes cs bag { blues = Cube (qty (reds bag) - c) Blue }
-
-simulate :: Game -> GameM (Maybe Int)
-simulate = \case
-  Game _ [] -> pure Nothing
-  Game i grabs -> do
-    ref <-  ask
-    bag <- liftIO $ readIORef ref
-    case go bag grabs of
-      Nothing -> pure Nothing
-      Just _ -> pure $ Just i
-  where
-    go :: Bag -> [Grab] -> Maybe Bag
-    go b [] = Just b
-    go b (Grab cs:gs) = case grabCubes cs b of
-      Nothing -> Nothing
-      Just b' -> go b' gs
-
-runGame :: Game -> IORef Bag -> IO (Maybe Int)
-runGame game = runReaderT (simulate game)
 
 parseCube :: ReadP Cube
 parseCube = do
@@ -94,9 +73,25 @@ parse :: String -> Game
 parse = fromMaybe (error "Could not parse game") 
       . parseMaybe parseGame
 
-solve :: String -> IO Int
-solve input = do
-  ref <- newIORef Bag { reds = Cube 12 Red, greens = Cube 13 Green, blues = Cube 14 Blue }
-  let games = map parse $ lines input
-  ids <- catMaybes <$> mapM (\game -> runGame game ref) games
-  pure $ sum ids
+getIds :: [Game] -> Int
+getIds = foldr step 0
+  where
+    step (Game i _) total = i + total
+
+runGame :: Bag -> Game -> Maybe Int
+runGame bag (Game i grabs) = foldr step (Just i) grabs
+  where
+    step :: Grab -> Maybe Int -> Maybe Int
+    step (Grab cubes) pass = case grabCubes cubes bag of
+      Nothing -> Nothing
+      Just _ -> pass
+
+bag :: Bag
+bag = Bag 
+  { reds = Cube 12 Red 
+  , greens = Cube 13 Green
+  , blues = Cube 14 Blue
+  }
+
+solve :: String -> Int
+solve = sum . catMaybes . map (runGame bag . parse) . lines
