@@ -19,6 +19,10 @@ spec = do
       parse "treb7uchet" `shouldBe` 77
 
   describe "Day1.Part1.solve" $ do
-    it "day1.part1.txt" $ do
-      input <- readFile "./inputs/day1.part1.txt"
+    it "day01.part01.txt" $ do
+      input <- readFile "./inputs/day01.part01.txt"
       solve input `shouldBe` 142
+
+    it "day01.txt" $ do
+      input <- readFile "./inputs/day01.txt"
+      solve input `shouldBe` 56042

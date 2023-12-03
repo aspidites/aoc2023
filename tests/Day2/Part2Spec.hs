@@ -31,5 +31,9 @@ spec = do
   describe "Day2.Part2.solve" $ do
 
     it "day2.part1.txt" $ do
-      input <- readFile "./inputs/day2.part1.txt"
+      input <- readFile "./inputs/day02.part01.txt"
       solve input `shouldBe` 2286
+
+    it "day02.txt" $ do
+      input <- readFile "./inputs/day02.txt"
+      solve input `shouldBe` 54699

@@ -1,4 +1,4 @@
-module AoC.Day1.Part2 (parse, solve, tokenize) where
+module AoC.Day1.Part2 (parse, solve) where
 
 tokenize :: String -> [Char]
 tokenize = \case

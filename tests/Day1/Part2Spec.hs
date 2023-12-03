@@ -31,7 +31,10 @@ spec = do
       parse "eighthree" `shouldBe` 83
 
   describe "Day1.Part2.solve" $ do
-    it "day1.part2.txt" $ do
-      input <- readFile "./inputs/day1.part2.txt"
+    it "day01.part02.txt" $ do
+      input <- readFile "./inputs/day01.part02.txt"
       solve input `shouldBe` 281
 
+    it "day01.txt" $ do
+      input <- readFile "./inputs/day01.txt"
+      solve input `shouldBe` 55358
