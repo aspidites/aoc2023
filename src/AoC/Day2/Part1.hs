@@ -4,34 +4,45 @@ module AoC.Day2.Part1
   , Grab(..)
   , Game(..) 
   , Bag(..)
+  , emptyBag
   , parse
   , solve
   ) where
 
 import Control.Applicative ((<|>))
 import Control.Monad (void)
-import Control.Monad.Reader
-import Data.IORef
 import Data.Maybe
 import Parsing
 import Text.ParserCombinators.ReadP hiding (get)
 
+data Color = Red | Green | Blue deriving (Eq, Show, Ord)
+
 data Cube = Cube 
   { qty :: Int 
   , color :: Color 
-  } deriving (Eq, Show)
+  } deriving (Eq, Show, Ord)
 
-data Color = Red | Green | Blue deriving (Eq, Show)
+data Grab = Grab 
+  { cubes :: [Cube] 
+  } deriving (Eq, Show, Ord)
 
-data Grab = Grab [Cube] deriving (Eq, Show)
-
-data Game = Game Int [Grab] deriving (Eq, Show)
+data Game = Game 
+  { gameId :: Int 
+  , grabs :: [Grab] 
+  } deriving (Eq, Show, Ord)
 
 data Bag = Bag
   { reds :: Cube 
   , greens :: Cube 
   , blues :: Cube 
   } deriving (Eq, Show)
+  
+emptyBag :: Bag
+emptyBag = Bag
+  { reds = Cube 0 Red
+  , greens = Cube 0 Green 
+  , blues = Cube 0 Blue 
+  }
 
 grabCubes :: [Cube] -> Bag -> Maybe Bag
 grabCubes [] bag = Just bag
@@ -66,8 +77,8 @@ parseGame = do
   i <- parseInt  
   void $ char ':'
   skipSpaces
-  grabs <- parseGrab `sepBy` (char ';' <* skipSpaces)
-  pure $ Game i grabs
+  allGrabs <- parseGrab `sepBy` (char ';' <* skipSpaces)
+  pure $ Game i allGrabs
 
 parse :: String -> Game
 parse = fromMaybe (error "Could not parse game") 
@@ -79,19 +90,19 @@ getIds = foldr step 0
     step (Game i _) total = i + total
 
 runGame :: Bag -> Game -> Maybe Int
-runGame bag (Game i grabs) = foldr step (Just i) grabs
+runGame bag (Game i allGrabs) = foldr step (Just i) allGrabs
   where
     step :: Grab -> Maybe Int -> Maybe Int
-    step (Grab cubes) pass = case grabCubes cubes bag of
+    step (Grab allCubes) pass = case grabCubes allCubes bag of
       Nothing -> Nothing
       Just _ -> pass
 
-bag :: Bag
-bag = Bag 
+testBag :: Bag
+testBag = Bag 
   { reds = Cube 12 Red 
   , greens = Cube 13 Green
   , blues = Cube 14 Blue
   }
 
 solve :: String -> Int
-solve = sum . catMaybes . map (runGame bag . parse) . lines
+solve = sum . catMaybes . map (runGame testBag . parse) . lines

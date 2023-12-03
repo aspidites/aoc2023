@@ -42,6 +42,7 @@ spec = do
         [ Grab [ Cube 6 Red, Cube 1 Blue, Cube 3 Green ]
         , Grab [ Cube 2 Blue, Cube 1 Red, Cube 2 Green ]
         ]
+
   describe "Day2.Part1.solve" $ do
     it "day2.part1.txt" $ do
       input <- readFile "./inputs/day2.part1.txt"
