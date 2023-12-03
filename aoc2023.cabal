@@ -31,7 +31,6 @@ library
       , AoC.Day3.Part1
       , AoC.Day3.Part2
       , Parsing
-      , Util
     build-depends:    
         base
       , mtl
