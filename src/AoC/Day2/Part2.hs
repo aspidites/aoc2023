@@ -1,6 +1,6 @@
 module AoC.Day2.Part2 (parse, power, solve) where
 
-import AoC.Day2.Part1 (Cube(..), Color(..), Game(..), Grab(..), Bag(..), emptyBag, parse)
+import AoC.Day2.Part1 (Cube(..), Color(..), Game(..), Grab(..), parse)
 
 power :: Game -> Int
 power game = minRed * minGreen * minBlue

@@ -4,7 +4,6 @@ module AoC.Day2.Part1
   , Grab(..)
   , Game(..) 
   , Bag(..)
-  , emptyBag
   , parse
   , solve
   ) where
@@ -37,13 +36,6 @@ data Bag = Bag
   , blues :: Cube 
   } deriving (Eq, Show)
   
-emptyBag :: Bag
-emptyBag = Bag
-  { reds = Cube 0 Red
-  , greens = Cube 0 Green 
-  , blues = Cube 0 Blue 
-  }
-
 grabCubes :: [Cube] -> Bag -> Maybe Bag
 grabCubes [] bag = Just bag
 grabCubes (cube:cs) bag = go
@@ -83,11 +75,6 @@ parseGame = do
 parse :: String -> Game
 parse = fromMaybe (error "Could not parse game") 
       . parseMaybe parseGame
-
-getIds :: [Game] -> Int
-getIds = foldr step 0
-  where
-    step (Game i _) total = i + total
 
 runGame :: Bag -> Game -> Maybe Int
 runGame bag (Game i allGrabs) = foldr step (Just i) allGrabs
