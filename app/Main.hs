@@ -1,6 +1,9 @@
 module Main where
 
-import AoC.Day1.Part2
+import AoC.Day2.Part1
 
 main :: IO ()
-main = print . solve =<< readFile "./inputs/day1.txt"
+main = do
+  input <- readFile "./inputs/day2.part1.txt"
+  result <- solve input
+  print result

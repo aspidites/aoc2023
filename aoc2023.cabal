@@ -26,9 +26,10 @@ library
       , AoC.Day2.Part2
       , AoC.Day3.Part1
       , AoC.Day3.Part2
-      , Util
+      , Parsing
     build-depends:    
         base ^>=4.19.0.0
+      , mtl
     hs-source-dirs:   src
     default-language: GHC2021
 
@@ -52,6 +53,11 @@ test-suite aoc2023-test
     type:             exitcode-stdio-1.0
     hs-source-dirs:   tests
     main-is:          Spec.hs
+    other-modules:
+        Day1.Part1Spec
+        Day1.Part2Spec
+        Day2.Part1Spec
+        Day2.Part2Spec
     build-depends:
         base ^>=4.19.0.0
       , hspec
