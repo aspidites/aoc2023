@@ -19,6 +19,7 @@ data Config w = Config
   { day :: w ::: Maybe Int <?> "Which day to run solutions for"
   , input :: w ::: Maybe String <?> "Input file to run solution against"
   , json :: w ::: Bool <?> "Deprecated: This flag used to turn on/off json output"
+  , version :: w ::: Bool <?> "Display the current version"
   } deriving (Generic)
 
 instance ParseRecord (Config Wrapped)

@@ -45,6 +45,7 @@ executable aoc2023
     main-is:          Main.hs
     other-modules:
         Cli
+      , Paths_aoc2023
     build-depends:
         base
       , aeson
@@ -69,6 +70,7 @@ test-suite aoc2023-test
         Day1.Part2Spec
         Day2.Part1Spec
         Day2.Part2Spec
+        Day3.Part1Spec
     build-depends:
         base
       , hspec
