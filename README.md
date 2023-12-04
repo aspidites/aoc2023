@@ -19,3 +19,14 @@ For example, to run Day 1 solutions, you can use the following command:
 ```
 cabal run aoc2023 -- --day 1 --input ./inputs/day01.txt --json
 ```
+
+# Installing
+You can install using cabal as well:
+```cabal install```
+
+In which case, the executable will live in `$HOME/.cabal/bin`
+
+Alternatively, you can use the CI script to install:
+```./ci/scripts/install.sh```
+
+In which case, the bin will be copied locally to `./tmp/aoc2023`
