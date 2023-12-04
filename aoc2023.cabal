@@ -22,7 +22,8 @@ library
         extensions
       , warnings
     exposed-modules:
-        AoC.Day1
+        AoC
+      , AoC.Day1
       , AoC.Day1.Part1
       , AoC.Day1.Part2
       , AoC.Day2
@@ -76,3 +77,16 @@ test-suite aoc2023-test
       , hspec
       , aoc2023
     build-tool-depends: hspec-discover:hspec-discover
+
+Benchmark AoC
+    import:           
+        extensions
+      , warnings
+    default-language: GHC2021
+    type: exitcode-stdio-1.0
+    main-is: Bench.hs
+    hs-source-dirs: tests
+    build-depends:
+        base
+      , criterion
+      , aoc2023

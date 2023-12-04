@@ -2,18 +2,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Cli ( Config(..), run ) where
 
-import AoC.Day1 qualified as Day1
-import AoC.Day2 qualified as Day2
+import AoC (solutions)
 import Data.Aeson
 import Data.ByteString.Lazy.Char8 qualified as BS
 import Options.Generic
-
-
-solutions :: [(Int, (String -> Int, String -> Int))]
-solutions = 
-  [ (1, ( Day1.part1, Day1.part2 ) )
-  , (2, ( Day2.part1, Day2.part2 ) )
-  ]
 
 data Config w = Config
   { day :: w ::: Maybe Int <?> "Which day to run solutions for"
