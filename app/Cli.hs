@@ -1,27 +1,53 @@
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE OverloadedStrings #-}
-module Cli ( Config(..), run ) where
+module Cli ( Config(..), opts, run ) where
 
+import Paths_aoc2023 qualified as Paths
 import AoC (solutions)
 import Data.Aeson
 import Data.ByteString.Lazy.Char8 qualified as BS
-import Options.Generic
+import Options.Applicative
+import Data.Version (showVersion)
 
-data Config w = Config
-  { day :: w ::: Maybe Int <?> "Which day to run solutions for"
-  , input :: w ::: Maybe String <?> "Input file to run solution against"
-  , json :: w ::: Bool <?> "Deprecated: This flag used to turn on/off json output"
-  , version :: w ::: Bool <?> "Display the current version"
-  } deriving (Generic)
+data Config = Config
+  { day :: Maybe Int
+  , input :: Maybe String
+  , json :: Bool
+  } deriving (Show) 
 
-instance ParseRecord (Config Wrapped)
-deriving instance Show (Config Unwrapped)
+options :: Parser Config
+options = Config
+      <$> optional (option auto
+        ( long "day"
+       <> metavar "DAY" 
+       <> help "Which day to run solutions for"
+        ))
+      <*> optional (strOption
+        ( long "input"
+       <> metavar "FILEPATH"
+       <> help "Input file to run solution against"
+        ))
+      <*> switch
+        ( long "json"
+       <> help "Deprecated: This flag used to turn on/off json output"
+        )
 
-run :: Maybe Int -> Maybe String -> IO ()
-run Nothing _ = putStrLn "Please specify which day's solutions you want to run as an integer"
-run _ Nothing = putStrLn "Please specify an input file to run solutions against"
-run (Just d) (Just i) = do
-  input <- readFile i
+opts :: ParserInfo Config
+opts = 
+  info 
+    (options <**> helper <**> simpleVersioner (showVersion Paths.version))
+    ( fullDesc
+    <> progDesc "Run Advent of Code 2023 solutions"
+    <> header "aoc2023 - solutions for AoC 2023 in Haskell"
+    )
+
+run :: Config -> IO ()
+run (Config Nothing _ _) = putStrLn "Please specify which day's solutions you want to run as an integer"
+run (Config _ Nothing _) = putStrLn "Please specify an input file to run solutions against"
+run (Config (Just d) (Just i) _) = do
+
+
+  input <- readFile $ i
 
   case lookup d solutions of
     Nothing -> putStrLn "not implemented"

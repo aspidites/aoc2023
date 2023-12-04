@@ -52,8 +52,8 @@ executable aoc2023
       , aeson
       , transformers
       , bytestring 
+      , optparse-applicative
       , aoc2023
-      , optparse-generic
 
     hs-source-dirs:   app
     default-language: GHC2021
